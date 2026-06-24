@@ -1,0 +1,37 @@
+name: Auto-update resultados Mundial 2026
+
+on:
+  schedule:
+    # Cada 4 horas (UTC). CDMX = UTC-6. Captura partidos conforme terminan.
+    - cron: "17 */4 * * *"
+  workflow_dispatch: {}   # permite correrlo a mano desde la pestaña Actions
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-results
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Jalar resultados (TheSportsDB)
+        run: python3 update-results.py
+        env:
+          WINDOW_DAYS: "4"
+
+      - name: Commit si cambió
+        run: |
+          if [ -n "$(git status --porcelain mundial-resultados.json)" ]; then
+            git config user.name "mundial-bot"
+            git config user.email "actions@github.com"
+            git add mundial-resultados.json
+            git commit -m "chore: auto-update resultados Mundial $(date -u +%Y-%m-%dT%H:%MZ)"
+            git push
+          else
+            echo "Sin cambios en resultados."
+          fi
