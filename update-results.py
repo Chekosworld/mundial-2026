@@ -78,6 +78,9 @@ def fetch_day(d):
 
 def main():
     today = (datetime.datetime.now(datetime.timezone.utc) + MX_OFFSET).date()
+    if today >= datetime.date(2026, 7, 20):   # día después de la final → auto-apagado
+        print("Mundial terminado; sin actualización.")
+        return
     if os.environ.get("BACKFILL") == "1":
         start = TOURNAMENT_START
     else:
