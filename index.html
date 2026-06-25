@@ -483,7 +483,7 @@ function setUpdated(when, ok){
   const d = when ? new Date(when) : new Date();
   const f = d.toLocaleString('es-MX',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
   txt.textContent = ok ? ('Actualizado: '+f) : ('Sin conexión a la fuente · mostrando lo último ('+f+')');
-  freq.innerHTML='🔄 Resultados en vivo: se actualizan solos cada día a las 7:00 AM (CDMX) vía n8n + API-Football, y cada vez que reabres el tablero.';
+  freq.innerHTML='🔄 Resultados en vivo: se actualizan solos cada pocas horas vía GitHub Actions + football-data.org, y cada vez que reabres el tablero.';
 }
 
 async function boot(){
@@ -492,7 +492,8 @@ async function boot(){
     try{
       const res=await fetch(DATA_URL,{cache:'no-store'});
       const ext=await res.json();
-      (ext.matches||ext).forEach(e=>{const t=M.find(x=>x.a===e.a&&x.b===e.b&&key(x.d)===key(e.d));if(t&&e.s)t.s=e.s;});
+      (ext.matches||ext).forEach(e=>{if(!e.s)return;const t=M.find(x=>x.a===e.a&&x.b===e.b&&key(x.d)===key(e.d));if(t){t.s=e.s;return;}
+        const r=M.find(x=>x.a===e.b&&x.b===e.a&&key(x.d)===key(e.d));if(r){const p=e.s.split('-');r.s=p.length===2?(p[1].trim()+'-'+p[0].trim()):e.s;}});
       okStamp = ext.updated || new Date().toISOString();
     }catch(err){ ok=false; console.warn('Data externa no disponible, uso embebida:',err); }
   }
