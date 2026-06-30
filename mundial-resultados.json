@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-30T17:03:39Z",
+  "updated": "2026-06-30T20:57:13Z",
   "matches": [
     {
       "d": [
@@ -760,6 +760,16 @@
       "a": "Países Bajos",
       "b": "Marruecos",
       "s": "3-4"
+    },
+    {
+      "d": [
+        2026,
+        6,
+        30
+      ],
+      "a": "Costa de Marfil",
+      "b": "Noruega",
+      "s": "1-2"
     }
   ]
 }
