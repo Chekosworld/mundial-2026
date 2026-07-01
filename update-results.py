@@ -103,11 +103,12 @@ def main():
             pen = sc.get("penalties") or {}
             ph, pa = pen.get("home"), pen.get("away")
             pens = f"{ph}-{pa}" if (ph is not None and pa is not None) else None
-            bracket.append({"stage": stage, "d": d, "x": x, "a": ha, "b": aa,
+            bracket.append({"stage": stage, "id": fx.get("id"), "d": d, "x": x, "a": ha, "b": aa,
                             "s": score, "w": w, "p": pens, "st": fx.get("status")})
 
     matches.sort(key=lambda m: (m["d"], m["a"]))
-    bracket.sort(key=lambda m: (KO_STAGES.index(m["stage"]), m["d"], m["x"]))
+    # orden por (ronda, id) = orden de llave (el id de football-data sigue la estructura del bracket)
+    bracket.sort(key=lambda m: (KO_STAGES.index(m["stage"]), m["id"] if m["id"] is not None else 0))
 
     out = {"updated": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
            "matches": matches, "bracket": bracket}

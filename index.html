@@ -127,6 +127,30 @@
   .rd .rd2{font-size:12px;color:var(--muted);font-weight:600;margin-top:4px;line-height:1.5}
   .rd.fin{border-color:rgba(255,61,127,.4);background:linear-gradient(160deg,rgba(255,61,127,.10),var(--card))}
   .rd.fin .rn{color:var(--magenta)}
+  /* BRACKET TREE (árbol de eliminatoria) */
+  .bkt-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;padding:6px 2px 16px;margin:0 -4px}
+  .bkt{display:flex;align-items:stretch;min-width:940px;margin:0 auto}
+  .bkt .side{display:flex;flex:1}
+  .bkt .col{display:flex;flex-direction:column;justify-content:space-around;flex:1;gap:7px;min-width:104px;padding:0 6px}
+  .bkt .center{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-width:158px;padding:0 4px}
+  .bkt .mt{position:relative;background:var(--card);border:1px solid var(--line);border-radius:9px;overflow:hidden}
+  .bkt .mt.mex{border-color:var(--gold);box-shadow:inset 0 0 0 1px rgba(244,192,74,.5)}
+  .bkt .mt.tbd{opacity:.5}
+  .bkt .row{display:flex;align-items:center;gap:6px;padding:5px 8px;font-family:'Archivo';font-weight:700;font-size:12px;color:var(--ink);line-height:1.1}
+  .bkt .row+.row{border-top:1px solid var(--line)}
+  .bkt .row.win{color:var(--grass)}.bkt .row.win .sc{color:var(--grass)}
+  .bkt .row.out{color:var(--muted);opacity:.65}
+  .bkt .row .fg{font-size:13px;width:16px;text-align:center}
+  .bkt .row .cd{font-family:'Archivo Black';font-size:11px;letter-spacing:.02em}
+  .bkt .row .sc{margin-left:auto;font-family:'Archivo Black';font-size:12px;color:var(--gold)}
+  .bkt .center .mt{width:100%;border-color:rgba(255,61,127,.4)}
+  .bkt .center .mt.mex{border-color:var(--gold)}
+  .bkt .trophy{font-size:38px;line-height:1;filter:drop-shadow(0 4px 14px rgba(244,192,74,.45))}
+  .bkt .flabel{font-family:'Archivo Black';font-size:15px;letter-spacing:.08em;color:var(--magenta)}
+  .bkt .third-lbl{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-top:8px}
+  /* conectores horizontales hacia el centro */
+  .bkt .side.l .col:not(:last-child) .mt::after{content:"";position:absolute;right:-13px;top:50%;width:13px;height:2px;background:var(--line)}
+  .bkt .side.r .col:not(:first-child) .mt::before{content:"";position:absolute;left:-13px;top:50%;width:13px;height:2px;background:var(--line)}
   .empty{text-align:center;color:var(--muted);padding:60px 20px;font-weight:600;display:none}
   footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;font-weight:500;line-height:1.7}
   footer b{color:var(--grass)}
@@ -358,6 +382,44 @@ function mergeBracket(arr){
     M.push({d:m.d,x:m.x,a:m.a,b:m.b,s:m.s||undefined,ko:stageLabel(m.stage),live:m.st==='IN_PLAY'}); });
 }
 
+// Códigos de 3 letras (estilo TV) para el árbol compacto
+const CODE={'México':'MEX','Sudáfrica':'RSA','Corea del Sur':'KOR','Rep. Checa':'CZE','Canadá':'CAN','Bosnia':'BIH',
+'Estados Unidos':'USA','Paraguay':'PAR','Qatar':'QAT','Suiza':'SUI','Brasil':'BRA','Marruecos':'MAR','Haití':'HAI',
+'Escocia':'SCO','Australia':'AUS','Turquía':'TUR','Alemania':'GER','Curazao':'CUW','Países Bajos':'NED','Japón':'JPN',
+'Costa de Marfil':'CIV','Ecuador':'ECU','Suecia':'SWE','Túnez':'TUN','España':'ESP','Cabo Verde':'CPV','Bélgica':'BEL',
+'Egipto':'EGY','Arabia Saudita':'KSA','Uruguay':'URU','Irán':'IRN','Nueva Zelanda':'NZL','Francia':'FRA','Senegal':'SEN',
+'Irak':'IRQ','Noruega':'NOR','Argentina':'ARG','Argelia':'ALG','Austria':'AUT','Jordania':'JOR','Portugal':'POR',
+'RD Congo':'COD','Inglaterra':'ENG','Croacia':'CRO','Ghana':'GHA','Panamá':'PAN','Uzbekistán':'UZB','Colombia':'COL'};
+const cd=n=>CODE[n]||(n?n.slice(0,3).toUpperCase():'');
+
+// Árbol simétrico del bracket: R32 en orden de llave → propaga ganadores hacia el centro (final + trofeo).
+// Devuelve el HTML (se antepone a la lista por ronda). Cajas se rellenan solas conforme avanza el feed.
+function bracketTree(){
+  const r32=KOF.filter(m=>m.stage==='LAST_32');
+  if(r32.length<16) return '';
+  const findM=(stage,t1,t2)=>KOF.find(m=>m.stage===stage&&((m.a===t1&&m.b===t2)||(m.a===t2&&m.b===t1)));
+  const build=(stage,ch)=>{const out=[];for(let i=0;i<ch.length;i+=2){
+    const w1=ch[i]?koWinnerName(ch[i]):null,w2=ch[i+1]?koWinnerName(ch[i+1]):null;
+    out.push((w1&&w2&&findM(stage,w1,w2))||{stage,a:w1,b:w2,s:null,w:null,st:null});}return out;};
+  const r16=build('LAST_16',r32), qf=build('QUARTER_FINALS',r16), sf=build('SEMI_FINALS',qf), fin=build('FINAL',sf)[0];
+  const third=KOF.find(m=>m.stage==='THIRD_PLACE');
+  const row=(n,sc,w)=> n
+    ? `<div class="row ${w===true?'win':w===false?'out':''}"><span class="fg">${F[n]||'🏳️'}</span><span class="cd">${cd(n)}</span>${sc!=null?`<span class="sc">${sc}</span>`:''}</div>`
+    : `<div class="row out"><span class="fg">·</span><span class="cd">—</span></div>`;
+  const box=m=>{
+    const has=m&&(m.a||m.b), isMx=m&&(m.a==='México'||m.b==='México'), win=m?koWinnerName(m):null;
+    let ga=null,gb=null; if(m&&m.s){const p=m.s.split('-');ga=p[0];gb=p[1];}
+    return `<div class="mt ${isMx?'mex':''} ${has?'':'tbd'}">${row(m&&m.a,ga,win?win===m.a:null)}${row(m&&m.b,gb,win?win===m.b:null)}</div>`;
+  };
+  const col=ns=>`<div class="col">${ns.map(box).join('')}</div>`;
+  return `<div class="bkt-wrap"><div class="bkt">`
+    +`<div class="side l">${col(r32.slice(0,8))}${col(r16.slice(0,4))}${col(qf.slice(0,2))}${col([sf[0]])}</div>`
+    +`<div class="center"><div class="trophy">🏆</div><div class="flabel">FINAL</div>${box(fin)}`
+      +`<div class="third-lbl">Tercer lugar</div>${box(third)}</div>`
+    +`<div class="side r">${col([sf[1]])}${col(qf.slice(2,4))}${col(r16.slice(4,8))}${col(r32.slice(8,16))}</div>`
+    +`</div></div>`;
+}
+
 function recompute(){
   let played=0,goals=0,free=0;
   M.forEach(m=>{if(m.s){const[a,b]=m.s.split('-').map(Number);played++;goals+=a+b;}if(m.tv)free++;});
@@ -466,7 +528,9 @@ function bracket(){
     html+=`<div class="kday" style="color:var(--gold)">${st.n.toUpperCase()} <span style="color:var(--muted);font-weight:600;font-size:11px">· ${done}/${games.length}</span></div>`;
     html+=games.map(koCard).join("");
   });
-  document.getElementById('bracket').innerHTML=html||'<p style="color:var(--muted);font-weight:600;padding:14px 0">Aún no arranca la fase de eliminatoria.</p>';
+  const tree=bracketTree();
+  const listBlock=html?`<div class="kday" style="color:var(--grass);margin-top:28px">📋 Resultados por ronda</div>${html}`:'';
+  document.getElementById('bracket').innerHTML=(tree+listBlock)||'<p style="color:var(--muted);font-weight:600;padding:14px 0">Aún no arranca la fase de eliminatoria.</p>';
 
   // Rumbo a la final — progreso por ronda
   document.getElementById('rounds').innerHTML=KOSTAGES.map(st=>{
