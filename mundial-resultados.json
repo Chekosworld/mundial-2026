@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-01T20:52:25Z",
+  "updated": "2026-07-01T22:01:40Z",
   "matches": [
     {
       "d": [
@@ -720,86 +720,488 @@
       "a": "RD Congo",
       "b": "Uzbekistán",
       "s": "3-1"
-    },
+    }
+  ],
+  "bracket": [
     {
+      "stage": "LAST_32",
       "d": [
         2026,
         6,
         28
       ],
+      "x": "13:00",
       "a": "Sudáfrica",
       "b": "Canadá",
-      "s": "0-1"
+      "s": "0-1",
+      "w": "b",
+      "p": null,
+      "st": "FINISHED"
     },
     {
+      "stage": "LAST_32",
       "d": [
         2026,
         6,
         29
       ],
-      "a": "Alemania",
-      "b": "Paraguay",
-      "s": "4-5"
-    },
-    {
-      "d": [
-        2026,
-        6,
-        29
-      ],
+      "x": "11:00",
       "a": "Brasil",
       "b": "Japón",
-      "s": "2-1"
+      "s": "2-1",
+      "w": "a",
+      "p": null,
+      "st": "FINISHED"
     },
     {
+      "stage": "LAST_32",
       "d": [
         2026,
         6,
         29
       ],
+      "x": "14:30",
+      "a": "Alemania",
+      "b": "Paraguay",
+      "s": "4-5",
+      "w": "b",
+      "p": "3-4",
+      "st": "FINISHED"
+    },
+    {
+      "stage": "LAST_32",
+      "d": [
+        2026,
+        6,
+        29
+      ],
+      "x": "19:00",
       "a": "Países Bajos",
       "b": "Marruecos",
-      "s": "3-4"
+      "s": "3-4",
+      "w": "b",
+      "p": "2-3",
+      "st": "FINISHED"
     },
     {
+      "stage": "LAST_32",
       "d": [
         2026,
         6,
         30
       ],
+      "x": "11:00",
       "a": "Costa de Marfil",
       "b": "Noruega",
-      "s": "1-2"
+      "s": "1-2",
+      "w": "b",
+      "p": null,
+      "st": "FINISHED"
     },
     {
+      "stage": "LAST_32",
       "d": [
         2026,
         6,
         30
       ],
+      "x": "15:00",
       "a": "Francia",
       "b": "Suecia",
-      "s": "3-0"
+      "s": "3-0",
+      "w": "a",
+      "p": null,
+      "st": "FINISHED"
     },
     {
+      "stage": "LAST_32",
       "d": [
         2026,
         6,
         30
       ],
+      "x": "19:00",
       "a": "México",
       "b": "Ecuador",
-      "s": "2-0"
+      "s": "2-0",
+      "w": "a",
+      "p": null,
+      "st": "FINISHED"
     },
     {
+      "stage": "LAST_32",
       "d": [
         2026,
         7,
         1
       ],
+      "x": "10:00",
       "a": "Inglaterra",
       "b": "RD Congo",
-      "s": "2-1"
+      "s": "2-1",
+      "w": "a",
+      "p": null,
+      "st": "FINISHED"
+    },
+    {
+      "stage": "LAST_32",
+      "d": [
+        2026,
+        7,
+        1
+      ],
+      "x": "14:00",
+      "a": "Bélgica",
+      "b": "Senegal",
+      "s": "2-2",
+      "w": null,
+      "p": null,
+      "st": "IN_PLAY"
+    },
+    {
+      "stage": "LAST_32",
+      "d": [
+        2026,
+        7,
+        1
+      ],
+      "x": "18:00",
+      "a": "Estados Unidos",
+      "b": "Bosnia",
+      "s": null,
+      "w": null,
+      "p": null,
+      "st": "TIMED"
+    },
+    {
+      "stage": "LAST_32",
+      "d": [
+        2026,
+        7,
+        2
+      ],
+      "x": "13:00",
+      "a": "España",
+      "b": "Austria",
+      "s": null,
+      "w": null,
+      "p": null,
+      "st": "TIMED"
+    },
+    {
+      "stage": "LAST_32",
+      "d": [
+        2026,
+        7,
+        2
+      ],
+      "x": "17:00",
+      "a": "Portugal",
+      "b": "Croacia",
+      "s": null,
+      "w": null,
+      "p": null,
+      "st": "TIMED"
+    },
+    {
+      "stage": "LAST_32",
+      "d": [
+        2026,
+        7,
+        2
+      ],
+      "x": "21:00",
+      "a": "Suiza",
+      "b": "Argelia",
+      "s": null,
+      "w": null,
+      "p": null,
+      "st": "TIMED"
+    },
+    {
+      "stage": "LAST_32",
+      "d": [
+        2026,
+        7,
+        3
+      ],
+      "x": "12:00",
+      "a": "Australia",
+      "b": "Egipto",
+      "s": null,
+      "w": null,
+      "p": null,
+      "st": "TIMED"
+    },
+    {
+      "stage": "LAST_32",
+      "d": [
+        2026,
+        7,
+        3
+      ],
+      "x": "16:00",
+      "a": "Argentina",
+      "b": "Cabo Verde",
+      "s": null,
+      "w": null,
+      "p": null,
+      "st": "TIMED"
+    },
+    {
+      "stage": "LAST_32",
+      "d": [
+        2026,
+        7,
+        3
+      ],
+      "x": "19:30",
+      "a": "Colombia",
+      "b": "Ghana",
+      "s": null,
+      "w": null,
+      "p": null,
+      "st": "TIMED"
+    },
+    {
+      "stage": "LAST_16",
+      "d": [
+        2026,
+        7,
+        4
+      ],
+      "x": "11:00",
+      "a": "Canadá",
+      "b": "Marruecos",
+      "s": null,
+      "w": null,
+      "p": null,
+      "st": "TIMED"
+    },
+    {
+      "stage": "LAST_16",
+      "d": [
+        2026,
+        7,
+        4
+      ],
+      "x": "15:00",
+      "a": "Paraguay",
+      "b": "Francia",
+      "s": null,
+      "w": null,
+      "p": null,
+      "st": "TIMED"
+    },
+    {
+      "stage": "LAST_16",
+      "d": [
+        2026,
+        7,
+        5
+      ],
+      "x": "14:00",
+      "a": "Brasil",
+      "b": "Noruega",
+      "s": null,
+      "w": null,
+      "p": null,
+      "st": "TIMED"
+    },
+    {
+      "stage": "LAST_16",
+      "d": [
+        2026,
+        7,
+        5
+      ],
+      "x": "18:00",
+      "a": null,
+      "b": null,
+      "s": null,
+      "w": null,
+      "p": null,
+      "st": "TIMED"
+    },
+    {
+      "stage": "LAST_16",
+      "d": [
+        2026,
+        7,
+        6
+      ],
+      "x": "13:00",
+      "a": null,
+      "b": null,
+      "s": null,
+      "w": null,
+      "p": null,
+      "st": "TIMED"
+    },
+    {
+      "stage": "LAST_16",
+      "d": [
+        2026,
+        7,
+        6
+      ],
+      "x": "18:00",
+      "a": null,
+      "b": null,
+      "s": null,
+      "w": null,
+      "p": null,
+      "st": "TIMED"
+    },
+    {
+      "stage": "LAST_16",
+      "d": [
+        2026,
+        7,
+        7
+      ],
+      "x": "10:00",
+      "a": null,
+      "b": null,
+      "s": null,
+      "w": null,
+      "p": null,
+      "st": "TIMED"
+    },
+    {
+      "stage": "LAST_16",
+      "d": [
+        2026,
+        7,
+        7
+      ],
+      "x": "14:00",
+      "a": null,
+      "b": null,
+      "s": null,
+      "w": null,
+      "p": null,
+      "st": "TIMED"
+    },
+    {
+      "stage": "QUARTER_FINALS",
+      "d": [
+        2026,
+        7,
+        9
+      ],
+      "x": "14:00",
+      "a": null,
+      "b": null,
+      "s": null,
+      "w": null,
+      "p": null,
+      "st": "TIMED"
+    },
+    {
+      "stage": "QUARTER_FINALS",
+      "d": [
+        2026,
+        7,
+        10
+      ],
+      "x": "13:00",
+      "a": null,
+      "b": null,
+      "s": null,
+      "w": null,
+      "p": null,
+      "st": "TIMED"
+    },
+    {
+      "stage": "QUARTER_FINALS",
+      "d": [
+        2026,
+        7,
+        11
+      ],
+      "x": "15:00",
+      "a": null,
+      "b": null,
+      "s": null,
+      "w": null,
+      "p": null,
+      "st": "TIMED"
+    },
+    {
+      "stage": "QUARTER_FINALS",
+      "d": [
+        2026,
+        7,
+        11
+      ],
+      "x": "19:00",
+      "a": null,
+      "b": null,
+      "s": null,
+      "w": null,
+      "p": null,
+      "st": "TIMED"
+    },
+    {
+      "stage": "SEMI_FINALS",
+      "d": [
+        2026,
+        7,
+        14
+      ],
+      "x": "13:00",
+      "a": null,
+      "b": null,
+      "s": null,
+      "w": null,
+      "p": null,
+      "st": "TIMED"
+    },
+    {
+      "stage": "SEMI_FINALS",
+      "d": [
+        2026,
+        7,
+        15
+      ],
+      "x": "13:00",
+      "a": null,
+      "b": null,
+      "s": null,
+      "w": null,
+      "p": null,
+      "st": "TIMED"
+    },
+    {
+      "stage": "THIRD_PLACE",
+      "d": [
+        2026,
+        7,
+        18
+      ],
+      "x": "15:00",
+      "a": null,
+      "b": null,
+      "s": null,
+      "w": null,
+      "p": null,
+      "st": "TIMED"
+    },
+    {
+      "stage": "FINAL",
+      "d": [
+        2026,
+        7,
+        19
+      ],
+      "x": "13:00",
+      "a": null,
+      "b": null,
+      "s": null,
+      "w": null,
+      "p": null,
+      "st": "TIMED"
     }
   ]
 }

@@ -5,11 +5,17 @@ Auto-update de resultados del Mundial 2026 para el dashboard de Aitopia.
 Fuente: football-data.org (free tier "Tier One") — competition WC = FIFA World Cup 2026.
 Cobertura completa (104 partidos). 1 request por corrida (límite free 10/min).
 
-Lee TODOS los partidos, filtra los terminados, mapea nombres a ESPAÑOL exactos
-(los que usa el dashboard) y fecha en hora del centro de México, y reescribe
-mundial-resultados.json. El dashboard hace merge por (a, b, fecha-MX).
+Emite dos bloques:
+  - "matches": partidos de FASE DE GRUPOS terminados → {d, a, b, s}. El dashboard
+    los mergea por (a, b, fecha-MX) sobre su fixture embebido para pintar marcadores.
+  - "bracket": TODOS los partidos de eliminatoria (LAST_32 .. FINAL), jugados o no →
+    {stage, d, x, a, b, s, st}. La API rellena los equipos conforme avanzan las rondas
+    (source of truth de matchups Y progresión); el dashboard arma el árbol con esto.
+    a/b pueden ser null (cruce aún por definir); s null si no ha terminado.
 
-Sin dependencias externas (solo stdlib) → corre tal cual en GitHub Actions.
+Nombres mapeados a ESPAÑOL exactos (los que usa el dashboard) y fecha/hora en hora
+del centro de México (UTC-6 fijo). Sin dependencias externas (solo stdlib) → corre
+tal cual en GitHub Actions.
 
 Env:
   FOOTBALL_DATA_TOKEN  (requerido) — token de football-data.org.
@@ -19,6 +25,9 @@ import json, os, sys, urllib.request, datetime
 URL = "https://api.football-data.org/v4/competitions/WC/matches"
 MX_OFFSET = datetime.timedelta(hours=-6)   # CDMX = UTC-6 fijo (sin horario de verano)
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "mundial-resultados.json")
+
+# Rondas de eliminatoria en orden (stage de football-data → etiqueta ES corta).
+KO_STAGES = ["LAST_32", "LAST_16", "QUARTER_FINALS", "SEMI_FINALS", "THIRD_PLACE", "FINAL"]
 
 # football-data.org (EN) -> nombres EXACTOS que usa el dashboard (ES).
 ES = {
@@ -42,15 +51,16 @@ ES = {
 }
 
 def tr(name):
+    if not name:
+        return None
     if name in ES:
         return ES[name]
     print(f"  [WARN] equipo sin mapeo ES: {name!r} (se usa tal cual)", file=sys.stderr)
     return name
 
-def mx_date(utc_iso):
-    dt = datetime.datetime.fromisoformat(utc_iso.replace("Z", ""))  # UTC naive
-    d = (dt + MX_OFFSET).date()
-    return [d.year, d.month, d.day]
+def mx_dt(utc_iso):
+    dt = datetime.datetime.fromisoformat(utc_iso.replace("Z", "")) + MX_OFFSET  # UTC naive → CDMX
+    return [dt.year, dt.month, dt.day], dt.strftime("%H:%M")
 
 def main():
     today = (datetime.datetime.now(datetime.timezone.utc) + MX_OFFSET).date()
@@ -70,26 +80,41 @@ def main():
         print(f"[ERROR] API: {data.get('message')}", file=sys.stderr)
         sys.exit(1)
 
-    matches = []
+    matches, bracket = [], []
     for fx in data.get("matches", []):
-        if fx.get("status") != "FINISHED":
-            continue
-        ft = (fx.get("score") or {}).get("fullTime") or {}
+        stage = fx.get("stage")
+        sc = fx.get("score") or {}
+        ft = sc.get("fullTime") or {}
         h, a = ft.get("home"), ft.get("away")
-        if h is None or a is None:
-            continue
-        matches.append({
-            "d": mx_date(fx["utcDate"]),
-            "a": tr(fx.get("homeTeam", {}).get("name")),
-            "b": tr(fx.get("awayTeam", {}).get("name")),
-            "s": f"{h}-{a}",
-        })
+        score = f"{h}-{a}" if (h is not None and a is not None) else None
+        ha = tr(fx.get("homeTeam", {}).get("name"))
+        aa = tr(fx.get("awayTeam", {}).get("name"))
+
+        if stage == "GROUP_STAGE":
+            if fx.get("status") != "FINISHED" or score is None:
+                continue
+            d, _ = mx_dt(fx["utcDate"])
+            matches.append({"d": d, "a": ha, "b": aa, "s": score})
+        elif stage in KO_STAGES:
+            d, x = mx_dt(fx["utcDate"])
+            # ganador autoritativo de la API (los empates en eliminatoria se van a penales)
+            win = sc.get("winner")
+            w = "a" if win == "HOME_TEAM" else "b" if win == "AWAY_TEAM" else None
+            pen = sc.get("penalties") or {}
+            ph, pa = pen.get("home"), pen.get("away")
+            pens = f"{ph}-{pa}" if (ph is not None and pa is not None) else None
+            bracket.append({"stage": stage, "d": d, "x": x, "a": ha, "b": aa,
+                            "s": score, "w": w, "p": pens, "st": fx.get("status")})
+
     matches.sort(key=lambda m: (m["d"], m["a"]))
+    bracket.sort(key=lambda m: (KO_STAGES.index(m["stage"]), m["d"], m["x"]))
 
     out = {"updated": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-           "matches": matches}
+           "matches": matches, "bracket": bracket}
     json.dump(out, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
-    print(f"OK · {len(matches)} partidos terminados en JSON (de {len(data.get('matches', []))} totales)")
+    done = sum(1 for m in bracket if m["s"])
+    print(f"OK · {len(matches)} de grupos terminados + {len(bracket)} de eliminatoria "
+          f"({done} jugados) en JSON (de {len(data.get('matches', []))} totales)")
 
 if __name__ == "__main__":
     main()

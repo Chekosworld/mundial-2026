@@ -155,7 +155,7 @@
       <button id="updBtn" style="background:var(--card);border:1px solid var(--line);color:var(--grass);font-family:'Archivo';font-weight:700;font-size:11px;padding:4px 10px;border-radius:999px;cursor:pointer">↻ Actualizar</button>
     </div>
     <div id="updFreq" style="margin-top:7px;font-size:11.5px;color:var(--muted);font-weight:500;display:flex;align-items:center;gap:6px">
-      🔄 Resultados en vivo: se actualizan solos cada día a las 7:00 AM (CDMX) vía n8n + API-Football, y cada vez que reabres el tablero.
+      🔄 Resultados en vivo: se actualizan solos cada pocas horas vía GitHub Actions + football-data.org, y cada vez que reabres el tablero.
     </div>
   </header>
 
@@ -192,11 +192,11 @@
 
   <section class="view" id="view-brk">
     <div class="status">
-      <div class="scard q"><h4>✓ Ya clasificados</h4><div id="qlist"></div></div>
+      <div class="scard q"><h4>✓ Siguen vivos</h4><div id="qlist"></div></div>
       <div class="scard e"><h4>✗ Eliminados</h4><div id="elist"></div></div>
     </div>
     <p style="color:var(--muted);font-size:13px;font-weight:500;margin-bottom:4px">
-      <b style="color:var(--gold)">Camino de México</b> (resaltado): como líder del Grupo A, sus primeros partidos de eliminatoria se juegan en la Ciudad de México.</p>
+      <b style="color:var(--gold)">Camino de México</b>: sus partidos de eliminatoria van resaltados en dorado a lo largo del bracket.</p>
     <div id="bracket"></div>
     <h3 style="font-family:'Archivo Black';font-size:15px;text-transform:uppercase;margin:30px 0 0;color:var(--grass)">Rumbo a la final</h3>
     <div class="rounds" id="rounds"></div>
@@ -224,7 +224,7 @@
   </section>
 
   <footer>
-    Horarios en <b>tiempo del centro de México</b>. Resultados al 24 jun 2026 (J1 y J2 completas; J3 arranca hoy).<br>
+    Horarios en <b>tiempo del centro de México</b>. Fase de grupos + eliminatoria en vivo (16avos → final), marcadores automáticos.<br>
     Fixture, cruces y canales oficiales FIFA/Televisa/TV Azteca, sujetos a cambios. Generado para el Jefe Maestro · Aitopia.
   </footer>
 </div>
@@ -323,34 +323,8 @@ const M=[
  {d:[2026,6,27],x:"20:00",a:"Jordania",b:"Argentina",g:"J",v:"Dallas"},
 ];
 
-// 16avos de final (cruces oficiales por posición)
-const KO=[
- {n:73,a:"2º A",b:"2º B",d:"28 jun",v:"Los Ángeles"},
- {n:74,a:"1º E",b:"Mejor 3º",d:"29 jun",v:"Atlanta",note:"≈ Alemania"},
- {n:75,a:"1º F",b:"2º C",d:"29 jun",v:"Monterrey",mty:1},
- {n:76,a:"1º C",b:"2º F",d:"29 jun",v:"Houston"},
- {n:77,a:"1º I",b:"Mejor 3º",d:"30 jun",v:"Dallas"},
- {n:78,a:"2º E",b:"2º I",d:"30 jun",v:"Dallas"},
- {n:79,a:"México",b:"Mejor 3º",d:"30 jun",v:"Ciudad de México",mex:1},
- {n:80,a:"1º L",b:"Mejor 3º",d:"1 jul",v:"Atlanta"},
- {n:81,a:"1º G",b:"Mejor 3º",d:"1 jul",v:"Seattle"},
- {n:82,a:"1º D",b:"Mejor 3º",d:"1 jul",v:"Los Ángeles",note:"≈ Est. Unidos"},
- {n:83,a:"2º K",b:"2º L",d:"2 jul",v:"Toronto"},
- {n:84,a:"1º H",b:"2º J",d:"2 jul",v:"Los Ángeles"},
- {n:85,a:"1º B",b:"Mejor 3º",d:"2 jul",v:"Vancouver"},
- {n:86,a:"1º J",b:"2º H",d:"3 jul",v:"Miami"},
- {n:87,a:"2º D",b:"2º G",d:"3 jul",v:"Dallas"},
- {n:88,a:"1º K",b:"Mejor 3º",d:"3 jul",v:"Atlanta"},
-];
-const ROUNDS=[
- {n:"Octavos",d:"4 – 7 jul · 8 partidos"},
- {n:"Cuartos",d:"9 – 11 jul · 4 partidos"},
- {n:"Semifinales",d:"14 – 15 jul · Dallas y Atlanta"},
- {n:"3er lugar",d:"18 jul · Miami"},
- {n:"FINAL",d:"19 jul · Nueva Jersey 🇺🇸",fin:1},
-];
-const QUALIFIED=["México"];           // clasificados confirmados oficialmente
-const ELIMINATED=["Turquía","Túnez","Panamá"];          // eliminados confirmados
+// Los 16avos, octavos, cuartos, semis, 3er lugar y final se arman en bracket()
+// 100% desde el feed (KOF): cruces reales y progresión los da football-data.org.
 
 const DOW=["DOM","LUN","MAR","MIÉ","JUE","VIE","SÁB"];
 const MES=["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
@@ -361,6 +335,28 @@ const isHost=v=>HOST.has(v),isMty=m=>m.v==="Monterrey",isMex=m=>m.a==="México"|
 const team=(n,c)=>`<span class="team ${c||''}"><span class="flag">${F[n]||"🏳️"}</span>${n}</span>`;
 const tvBadge=m=>m.tv?`<span class="tvb free">📺 Gratis</span>`:`<span class="tvb vix">ViX</span>`;
 let filter="all";
+
+// ===== Eliminatoria (bracket) — se llena desde el feed (fuente de verdad de cruces y progresión) =====
+let KOF=[];   // partidos de eliminatoria del feed: {stage,d,x,a,b,s,w,p,st}
+const KOSTAGES=[
+ {k:'LAST_32',        n:'16avos de final'},
+ {k:'LAST_16',        n:'Octavos de final'},
+ {k:'QUARTER_FINALS', n:'Cuartos de final'},
+ {k:'SEMI_FINALS',    n:'Semifinales'},
+ {k:'THIRD_PLACE',    n:'Tercer lugar'},
+ {k:'FINAL',          n:'Final'},
+];
+const stageLabel=k=>{const o=KOSTAGES.find(x=>x.k===k);return o?o.n:k;};
+const koWinnerName=m=>(m.st==='FINISHED'&&m.w)?(m.w==='a'?m.a:m.b):null;
+const koLoserName=m=>(m.st==='FINISHED'&&m.w)?(m.w==='a'?m.b:m.a):null;
+
+// Mergea los partidos de eliminatoria del feed a KOF y los inyecta al calendario (M).
+function mergeBracket(arr){
+  KOF=Array.isArray(arr)?arr:[];
+  for(let i=M.length-1;i>=0;i--) if(M[i].ko) M.splice(i,1); // limpia inyecciones previas (boot corre varias veces)
+  KOF.forEach(m=>{ if(!m.a||!m.b) return;                    // solo cruces con ambos equipos definidos
+    M.push({d:m.d,x:m.x,a:m.a,b:m.b,s:m.s||undefined,ko:stageLabel(m.stage),live:m.st==='IN_PLAY'}); });
+}
 
 function recompute(){
   let played=0,goals=0,free=0;
@@ -389,11 +385,13 @@ function render(){
     sec.innerHTML=`<div class="day-head"><span class="day-dow">${DOW[dd.getDay()]}</span><span class="day-date">${dd.getDate()} ${MES[dd.getMonth()]}</span>${tag}</div>`+
       list.map(m=>{const cls=["match",isMex(m)?"mx":"",isMty(m)?"mty":""].join(" ");let left,center;
         if(m.s){const[ga,gb]=m.s.split('-').map(Number);const aw=ga>gb?'win':ga<gb?'lose':'',bw=gb>ga?'win':gb<ga?'lose':'';
-          left=`<div class="time ft">FT<small class="ftd">FINAL</small></div>`;
+          left=m.live?`<div class="time ft" style="color:var(--magenta)">●<small class="ftd">VIVO</small></div>`:`<div class="time ft">FT<small class="ftd">FINAL</small></div>`;
           center=`<div class="teams">${team(m.a,aw)} <span class="scorebox">${ga}-${gb}</span> ${team(m.b,bw)}</div>`;
         }else{left=`<div class="time">${m.x}<small>HRS MX</small></div>`;
           center=`<div class="teams">${team(m.a)} <span class="vs">VS</span> ${team(m.b)}</div>`;}
-        return `<div class="${cls}">${left}${center}<div class="meta"><span class="grp">GRUPO ${m.g}</span>${tvBadge(m)}<span class="venue ${isHost(m.v)?'host':''}">${m.v}</span></div></div>`;
+        const meta=m.ko?`<span class="grp" style="color:var(--gold)">${m.ko}</span>${m.live?'<span class="tvb" style="background:rgba(255,61,127,.14);color:var(--magenta)">● EN VIVO</span>':''}`
+          :`<span class="grp">GRUPO ${m.g}</span>${tvBadge(m)}<span class="venue ${isHost(m.v)?'host':''}">${m.v}</span>`;
+        return `<div class="${cls}">${left}${center}<div class="meta">${meta}</div></div>`;
       }).join("");
     board.appendChild(sec);
   });
@@ -402,7 +400,7 @@ function render(){
 
 function standings(){
   const G={};
-  M.forEach(m=>{G[m.g]=G[m.g]||{};[m.a,m.b].forEach(t=>{if(!G[m.g][t])G[m.g][t]={t,pj:0,g:0,e:0,p:0,gf:0,gc:0,pts:0};});
+  M.forEach(m=>{if(!m.g)return;G[m.g]=G[m.g]||{};[m.a,m.b].forEach(t=>{if(!G[m.g][t])G[m.g][t]={t,pj:0,g:0,e:0,p:0,gf:0,gc:0,pts:0};});
     if(m.s){const[ga,gb]=m.s.split('-').map(Number);const A=G[m.g][m.a],B=G[m.g][m.b];
       A.pj++;B.pj++;A.gf+=ga;A.gc+=gb;B.gf+=gb;B.gc+=ga;
       if(ga>gb){A.g++;A.pts+=3;B.p++;}else if(gb>ga){B.g++;B.pts+=3;A.p++;}else{A.e++;B.e++;A.pts++;B.pts++;}}});
@@ -431,7 +429,7 @@ function predict(m){const ra=(R[m.a]||71)+(HOMEADV.includes(m.a)?4:0),rb=(R[m.b]
   if(pA<0){pB+=pA;pA=0;}if(pB<0){pA+=pB;pB=0;}const s=pA+pB+pD;pA/=s;pB/=s;pD/=s;
   const gA=Math.max(0,Math.round(1.35+dr/55)),gB=Math.max(0,Math.round(1.35-dr/55));
   const mx=Math.max(pA,pD,pB),conf=mx>0.52?'alta':mx>0.42?'media':'baja';return{pA,pD,pB,gA,gB,conf};}
-function predlist(){const up=M.filter(m=>!m.s&&jsDate(m.d)>=NOW);
+function predlist(){const up=M.filter(m=>!m.ko&&!m.s&&jsDate(m.d)>=NOW);
   document.getElementById('predlist').innerHTML=up.map(m=>{const p=predict(m),dd=jsDate(m.d),r=v=>Math.round(v*100);
     return `<div class="pcard"><div class="ph"><div class="pt">${team(m.a)} <span class="vs">vs</span> ${team(m.b)}</div>
       <div style="display:flex;gap:8px;align-items:center"><span class="conf ${p.conf}">Confianza ${p.conf}</span><span class="est">~ ${p.gA}-${p.gB}</span></div></div>
@@ -442,26 +440,40 @@ function predlist(){const up=M.filter(m=>!m.s&&jsDate(m.d)>=NOW);
 
 function bracket(){
   const fl=n=>F[n]?`<span class="flag">${F[n]}</span>`:'';
-  const pts={};
-  M.forEach(m=>{if(m.s){const[ga,gb]=m.s.split('-').map(Number);pts[m.a]=pts[m.a]||0;pts[m.b]=pts[m.b]||0;
-    if(ga>gb)pts[m.a]+=3;else if(gb>ga)pts[m.b]+=3;else{pts[m.a]++;pts[m.b]++;}}});
-  const QUAL=Object.keys(pts).filter(t=>pts[t]>=6).sort((a,b)=>pts[b]-pts[a]);
-  document.getElementById('qlist').innerHTML=QUAL.map(t=>`<span class="pill">${fl(t)}${t}</span>`).join("")||'<span style="color:var(--muted)">—</span>';
-  document.getElementById('elist').innerHTML=ELIMINATED.map(t=>`<span class="pill">${fl(t)}${t}</span>`).join("")||'<span style="color:var(--muted)">—</span>';
-  const days={};KO.forEach(k=>{(days[k.d]=days[k.d]||[]).push(k);});
+  // Siguen vivos / eliminados — derivado 100% del feed de eliminatoria
+  const last32=new Set(); KOF.filter(m=>m.stage==='LAST_32').forEach(m=>{if(m.a)last32.add(m.a);if(m.b)last32.add(m.b);});
+  const losers=new Set(); KOF.forEach(m=>{const l=koLoserName(m); if(l)losers.add(l);});
+  const alive=[...last32].filter(t=>!losers.has(t)).sort((a,b)=>a.localeCompare(b));
+  const groupTeams=new Set(); M.forEach(m=>{if(m.g){groupTeams.add(m.a);groupTeams.add(m.b);}});
+  const elim=[...new Set([...losers,...[...groupTeams].filter(t=>!last32.has(t))])].sort((a,b)=>a.localeCompare(b));
+  document.getElementById('qlist').innerHTML=alive.map(t=>`<span class="pill">${fl(t)}${t}</span>`).join("")||'<span style="color:var(--muted)">—</span>';
+  document.getElementById('elist').innerHTML=elim.map(t=>`<span class="pill">${fl(t)}${t}</span>`).join("")||'<span style="color:var(--muted)">—</span>';
+
+  // Árbol por ronda — cruces y ganadores reales del feed; "Por definir" si aún no se decide
+  const koCard=m=>{
+    const isMx=m.a==='México'||m.b==='México', w=koWinnerName(m);
+    const tm=n=>n?team(n, w?(w===n?'win':'lose'):''):`<span class="ph2">Por definir</span>`;
+    let meta;
+    if(m.st==='FINISHED') meta=`${m.s?`<span class="scorebox">${m.s}</span>`:''}<small class="ftd">${m.p?`pen ${m.p}`:'FINAL'}</small>`;
+    else if(m.st==='IN_PLAY'||m.st==='PAUSED') meta=`<span class="scorebox" style="color:var(--magenta);background:rgba(255,61,127,.14)">${m.s||'0-0'}</span><small class="ftd" style="color:var(--magenta)">● EN VIVO</small>`;
+    else{const dd=jsDate(m.d); meta=`<span style="font-family:'Archivo Black';color:var(--gold)">${m.x}</span><small class="ftd">${DOW[dd.getDay()]} ${dd.getDate()}/${m.d[1]} · MX</small>`;}
+    return `<div class="ko-match ${isMx?'mex':''}"><div class="ko-teams">${tm(m.a)} <span class="vs">VS</span> ${tm(m.b)}</div><div class="ko-meta">${meta}</div></div>`;
+  };
   let html="";
-  Object.keys(days).forEach(d=>{
-    html+=`<div class="kday">▸ ${d}</div>`;
-    days[d].forEach(k=>{
-      const cls=["ko-match",k.mex?"mex":"",k.mty?"mty":""].join(" ");
-      const A=F[k.a]?team(k.a):`<span class="ph2">${k.a}</span>`;
-      const B=F[k.b]?team(k.b):`<span class="ph2">${k.b}</span>`;
-      html+=`<div class="${cls}"><div class="ko-teams">${A} <span class="vs">VS</span> ${B}${k.note?` <span style="color:var(--muted);font-size:11px">(${k.note})</span>`:''}</div>
-        <div class="ko-meta">P${k.n}<br><span class="${isHost(k.v)?'venue host':''}">${k.v}</span></div></div>`;
-    });
+  KOSTAGES.forEach(st=>{
+    const games=KOF.filter(m=>m.stage===st.k); if(!games.length) return;
+    const done=games.filter(m=>m.st==='FINISHED').length;
+    html+=`<div class="kday" style="color:var(--gold)">${st.n.toUpperCase()} <span style="color:var(--muted);font-weight:600;font-size:11px">· ${done}/${games.length}</span></div>`;
+    html+=games.map(koCard).join("");
   });
-  document.getElementById('bracket').innerHTML='<div class="kday" style="color:var(--gold)">16AVOS DE FINAL</div>'+html;
-  document.getElementById('rounds').innerHTML=ROUNDS.map(r=>`<div class="rd ${r.fin?'fin':''}"><div class="rn">${r.n}</div><div class="rd2">${r.d}</div></div>`).join("");
+  document.getElementById('bracket').innerHTML=html||'<p style="color:var(--muted);font-weight:600;padding:14px 0">Aún no arranca la fase de eliminatoria.</p>';
+
+  // Rumbo a la final — progreso por ronda
+  document.getElementById('rounds').innerHTML=KOSTAGES.map(st=>{
+    const games=KOF.filter(m=>m.stage===st.k); if(!games.length) return '';
+    const done=games.filter(m=>m.st==='FINISHED').length;
+    return `<div class="rd ${st.k==='FINAL'?'fin':''}"><div class="rn">${st.n}</div><div class="rd2">${done}/${games.length} jugados</div></div>`;
+  }).join("");
 }
 
 document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{
@@ -494,6 +506,7 @@ async function boot(){
       const ext=await res.json();
       (ext.matches||ext).forEach(e=>{if(!e.s)return;const t=M.find(x=>x.a===e.a&&x.b===e.b&&key(x.d)===key(e.d));if(t){t.s=e.s;return;}
         const r=M.find(x=>x.a===e.b&&x.b===e.a&&key(x.d)===key(e.d));if(r){const p=e.s.split('-');r.s=p.length===2?(p[1].trim()+'-'+p[0].trim()):e.s;}});
+      mergeBracket(ext.bracket);   // eliminatoria → KOF + inyecta cruces conocidos al calendario
       okStamp = ext.updated || new Date().toISOString();
     }catch(err){ ok=false; console.warn('Data externa no disponible, uso embebida:',err); }
   }
