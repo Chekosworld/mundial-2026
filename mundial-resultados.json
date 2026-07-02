@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-02T01:19:04Z",
+  "updated": "2026-07-02T07:44:21Z",
   "matches": [
     {
       "d": [
@@ -830,10 +830,10 @@
       "x": "18:00",
       "a": "Estados Unidos",
       "b": "Bosnia",
-      "s": "1-0",
+      "s": "2-0",
       "w": "a",
       "p": null,
-      "st": "IN_PLAY"
+      "st": "FINISHED"
     },
     {
       "stage": "LAST_32",
@@ -891,7 +891,7 @@
         6,
         30
       ],
-      "x": "19:00",
+      "x": "20:00",
       "a": "México",
       "b": "Ecuador",
       "s": "2-0",
@@ -1036,8 +1036,8 @@
         5
       ],
       "x": "18:00",
-      "a": null,
-      "b": null,
+      "a": "México",
+      "b": "Inglaterra",
       "s": null,
       "w": null,
       "p": null,
@@ -1068,8 +1068,8 @@
         6
       ],
       "x": "18:00",
-      "a": null,
-      "b": null,
+      "a": "Estados Unidos",
+      "b": "Bélgica",
       "s": null,
       "w": null,
       "p": null,
