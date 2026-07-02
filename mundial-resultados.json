@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-02T18:02:20Z",
+  "updated": "2026-07-02T21:33:42Z",
   "matches": [
     {
       "d": [
@@ -814,10 +814,10 @@
       "x": "13:00",
       "a": "España",
       "b": "Austria",
-      "s": null,
-      "w": null,
+      "s": "3-0",
+      "w": "a",
       "p": null,
-      "st": "TIMED"
+      "st": "FINISHED"
     },
     {
       "stage": "LAST_32",
