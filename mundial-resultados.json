@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-03T17:48:35Z",
+  "updated": "2026-07-03T21:32:29Z",
   "matches": [
     {
       "d": [
@@ -942,10 +942,10 @@
       "x": "12:00",
       "a": "Australia",
       "b": "Egipto",
-      "s": null,
+      "s": "3-5",
       "w": null,
-      "p": null,
-      "st": "TIMED"
+      "p": "4-4",
+      "st": "FINISHED"
     },
     {
       "stage": "LAST_32",
