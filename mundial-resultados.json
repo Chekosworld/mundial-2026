@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-03T21:32:29Z",
+  "updated": "2026-07-04T04:02:36Z",
   "matches": [
     {
       "d": [
@@ -926,10 +926,10 @@
       "x": "16:00",
       "a": "Argentina",
       "b": "Cabo Verde",
-      "s": null,
-      "w": null,
+      "s": "3-2",
+      "w": "a",
       "p": null,
-      "st": "TIMED"
+      "st": "FINISHED"
     },
     {
       "stage": "LAST_32",
@@ -974,10 +974,10 @@
       "x": "19:30",
       "a": "Colombia",
       "b": "Ghana",
-      "s": null,
-      "w": null,
+      "s": "1-0",
+      "w": "a",
       "p": null,
-      "st": "TIMED"
+      "st": "FINISHED"
     },
     {
       "stage": "LAST_16",
