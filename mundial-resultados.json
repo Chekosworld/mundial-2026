@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-04T13:59:04Z",
+  "updated": "2026-07-04T17:20:04Z",
   "matches": [
     {
       "d": [
@@ -1006,10 +1006,10 @@
       "x": "11:00",
       "a": "Canadá",
       "b": "Marruecos",
-      "s": null,
+      "s": "0-0",
       "w": null,
       "p": null,
-      "st": "TIMED"
+      "st": "IN_PLAY"
     },
     {
       "stage": "LAST_16",
