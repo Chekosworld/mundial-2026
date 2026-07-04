@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-04T17:20:04Z",
+  "updated": "2026-07-04T21:13:59Z",
   "matches": [
     {
       "d": [
@@ -990,10 +990,10 @@
       "x": "15:00",
       "a": "Paraguay",
       "b": "Francia",
-      "s": null,
+      "s": "0-0",
       "w": null,
       "p": null,
-      "st": "TIMED"
+      "st": "LIVE"
     },
     {
       "stage": "LAST_16",
@@ -1006,10 +1006,10 @@
       "x": "11:00",
       "a": "Canadá",
       "b": "Marruecos",
-      "s": "0-0",
-      "w": null,
+      "s": "0-3",
+      "w": "b",
       "p": null,
-      "st": "IN_PLAY"
+      "st": "FINISHED"
     },
     {
       "stage": "LAST_16",
