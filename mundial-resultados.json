@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-04T04:02:36Z",
+  "updated": "2026-07-04T07:15:12Z",
   "matches": [
     {
       "d": [
@@ -943,8 +943,8 @@
       "a": "Australia",
       "b": "Egipto",
       "s": "3-5",
-      "w": null,
-      "p": "4-4",
+      "w": "b",
+      "p": "2-4",
       "st": "FINISHED"
     },
     {
@@ -1052,8 +1052,8 @@
         6
       ],
       "x": "13:00",
-      "a": null,
-      "b": null,
+      "a": "Portugal",
+      "b": "España",
       "s": null,
       "w": null,
       "p": null,
@@ -1084,8 +1084,8 @@
         7
       ],
       "x": "10:00",
-      "a": null,
-      "b": null,
+      "a": "Argentina",
+      "b": "Egipto",
       "s": null,
       "w": null,
       "p": null,
@@ -1100,8 +1100,8 @@
         7
       ],
       "x": "14:00",
-      "a": null,
-      "b": null,
+      "a": "Suiza",
+      "b": "Colombia",
       "s": null,
       "w": null,
       "p": null,
