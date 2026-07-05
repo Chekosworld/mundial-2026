@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-05T17:32:02Z",
+  "updated": "2026-07-05T21:19:44Z",
   "matches": [
     {
       "d": [
@@ -1022,10 +1022,10 @@
       "x": "14:00",
       "a": "Brasil",
       "b": "Noruega",
-      "s": null,
+      "s": "0-0",
       "w": null,
       "p": null,
-      "st": "TIMED"
+      "st": "LIVE"
     },
     {
       "stage": "LAST_16",
