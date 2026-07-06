@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-05T21:19:44Z",
+  "updated": "2026-07-06T04:39:44Z",
   "matches": [
     {
       "d": [
@@ -1022,10 +1022,10 @@
       "x": "14:00",
       "a": "Brasil",
       "b": "Noruega",
-      "s": "0-0",
-      "w": null,
+      "s": "1-2",
+      "w": "b",
       "p": null,
-      "st": "LIVE"
+      "st": "FINISHED"
     },
     {
       "stage": "LAST_16",
@@ -1035,13 +1035,13 @@
         7,
         5
       ],
-      "x": "18:00",
+      "x": "19:00",
       "a": "México",
       "b": "Inglaterra",
-      "s": null,
-      "w": null,
+      "s": "2-3",
+      "w": "b",
       "p": null,
-      "st": "TIMED"
+      "st": "FINISHED"
     },
     {
       "stage": "LAST_16",
