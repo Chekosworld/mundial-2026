@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-06T18:20:30Z",
+  "updated": "2026-07-06T21:48:08Z",
   "matches": [
     {
       "d": [
@@ -1054,10 +1054,10 @@
       "x": "13:00",
       "a": "Portugal",
       "b": "España",
-      "s": null,
-      "w": null,
+      "s": "0-1",
+      "w": "b",
       "p": null,
-      "st": "TIMED"
+      "st": "FINISHED"
     },
     {
       "stage": "LAST_16",
