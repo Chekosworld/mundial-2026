@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-07T04:17:09Z",
+  "updated": "2026-07-07T11:19:21Z",
   "matches": [
     {
       "d": [
@@ -1132,8 +1132,8 @@
         10
       ],
       "x": "13:00",
-      "a": null,
-      "b": null,
+      "a": "España",
+      "b": "Bélgica",
       "s": null,
       "w": null,
       "p": null,
