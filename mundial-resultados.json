@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-06T21:48:08Z",
+  "updated": "2026-07-07T04:17:09Z",
   "matches": [
     {
       "d": [
@@ -1070,10 +1070,10 @@
       "x": "18:00",
       "a": "Estados Unidos",
       "b": "Bélgica",
-      "s": null,
-      "w": null,
+      "s": "1-4",
+      "w": "b",
       "p": null,
-      "st": "TIMED"
+      "st": "FINISHED"
     },
     {
       "stage": "LAST_16",
