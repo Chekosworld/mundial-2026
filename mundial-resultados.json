@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-07T21:41:45Z",
+  "updated": "2026-07-08T03:45:06Z",
   "matches": [
     {
       "d": [
@@ -1102,10 +1102,10 @@
       "x": "14:00",
       "a": "Suiza",
       "b": "Colombia",
-      "s": "0-0",
+      "s": "4-3",
       "w": null,
-      "p": null,
-      "st": "IN_PLAY"
+      "p": "3-3",
+      "st": "FINISHED"
     },
     {
       "stage": "QUARTER_FINALS",
