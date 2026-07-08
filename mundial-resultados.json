@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-08T03:45:06Z",
+  "updated": "2026-07-08T06:39:01Z",
   "matches": [
     {
       "d": [
@@ -1103,8 +1103,8 @@
       "a": "Suiza",
       "b": "Colombia",
       "s": "4-3",
-      "w": null,
-      "p": "3-3",
+      "w": "a",
+      "p": "4-3",
       "st": "FINISHED"
     },
     {
@@ -1164,8 +1164,8 @@
         11
       ],
       "x": "19:00",
-      "a": null,
-      "b": null,
+      "a": "Argentina",
+      "b": "Suiza",
       "s": null,
       "w": null,
       "p": null,
