@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-09T18:10:27Z",
+  "updated": "2026-07-09T21:45:57Z",
   "matches": [
     {
       "d": [
@@ -1118,10 +1118,10 @@
       "x": "14:00",
       "a": "Francia",
       "b": "Marruecos",
-      "s": null,
-      "w": null,
+      "s": "2-0",
+      "w": "a",
       "p": null,
-      "st": "TIMED"
+      "st": "IN_PLAY"
     },
     {
       "stage": "QUARTER_FINALS",
