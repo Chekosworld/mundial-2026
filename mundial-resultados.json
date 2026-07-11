@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-11T17:16:20Z",
+  "updated": "2026-07-11T21:07:37Z",
   "matches": [
     {
       "d": [
@@ -1150,10 +1150,10 @@
       "x": "15:00",
       "a": "Noruega",
       "b": "Inglaterra",
-      "s": null,
+      "s": "0-0",
       "w": null,
       "p": null,
-      "st": "TIMED"
+      "st": "IN_PLAY"
     },
     {
       "stage": "QUARTER_FINALS",
