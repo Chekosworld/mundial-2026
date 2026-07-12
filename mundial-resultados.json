@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-11T21:07:37Z",
+  "updated": "2026-07-12T03:57:59Z",
   "matches": [
     {
       "d": [
@@ -1041,7 +1041,7 @@
       "s": "2-3",
       "w": "b",
       "p": null,
-      "st": "FINISHED"
+      "st": "2026-07-06 01:00:00Z"
     },
     {
       "stage": "LAST_16",
@@ -1150,10 +1150,10 @@
       "x": "15:00",
       "a": "Noruega",
       "b": "Inglaterra",
-      "s": "0-0",
-      "w": null,
+      "s": "1-2",
+      "w": "b",
       "p": null,
-      "st": "IN_PLAY"
+      "st": "FINISHED"
     },
     {
       "stage": "QUARTER_FINALS",
@@ -1166,10 +1166,10 @@
       "x": "19:00",
       "a": "Argentina",
       "b": "Suiza",
-      "s": null,
-      "w": null,
+      "s": "3-1",
+      "w": "a",
       "p": null,
-      "st": "TIMED"
+      "st": "FINISHED"
     },
     {
       "stage": "SEMI_FINALS",
