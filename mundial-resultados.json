@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-15T17:39:11Z",
+  "updated": "2026-07-15T21:15:31Z",
   "matches": [
     {
       "d": [
@@ -1198,10 +1198,10 @@
       "x": "13:00",
       "a": "Inglaterra",
       "b": "Argentina",
-      "s": null,
-      "w": null,
+      "s": "1-2",
+      "w": "b",
       "p": null,
-      "st": "TIMED"
+      "st": "FINISHED"
     },
     {
       "stage": "THIRD_PLACE",
