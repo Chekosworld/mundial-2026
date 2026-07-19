@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-18T21:06:46Z",
+  "updated": "2026-07-19T03:55:20Z",
   "matches": [
     {
       "d": [
@@ -1214,10 +1214,10 @@
       "x": "15:00",
       "a": "Francia",
       "b": "Inglaterra",
-      "s": "0-0",
-      "w": null,
+      "s": "4-6",
+      "w": "b",
       "p": null,
-      "st": "IN_PLAY"
+      "st": "FINISHED"
     },
     {
       "stage": "FINAL",
