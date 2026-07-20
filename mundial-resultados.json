@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-19T21:07:56Z",
+  "updated": "2026-07-20T04:05:33Z",
   "matches": [
     {
       "d": [
@@ -1230,10 +1230,10 @@
       "x": "13:00",
       "a": "España",
       "b": "Argentina",
-      "s": "0-0",
-      "w": null,
+      "s": "1-0",
+      "w": "a",
       "p": null,
-      "st": "IN_PLAY"
+      "st": "FINISHED"
     }
   ]
 }
